@@ -102,6 +102,6 @@ class ECloudHousekeeperClient implements \ArrayAccess
 
     public function handleErrorResponse(?string $content = null, array $data = [])
     {
-        throw new \RuntimeException(sprintf("Request fail , %s", $data['message'] ?: $data['error']), $data['code'] ?? $data['status']);
+        throw new \RuntimeException(sprintf("Request fail, %s", json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT)), $data['code'] ?? $data['status']);
     }
 }
