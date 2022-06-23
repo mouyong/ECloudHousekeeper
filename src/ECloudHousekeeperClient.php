@@ -3,7 +3,9 @@
 namespace MouYong\ECloudHousekeeper;
 
 use ZhenMu\Support\Traits\Clientable;
+use Psr\Http\Message\ResponseInterface;
 use ZhenMu\Support\Traits\DefaultClient;
+use MouYong\ECloudHousekeeper\Exceptions\RuntimeException;
 
 class ECloudHousekeeperClient implements \ArrayAccess
 {
@@ -91,6 +93,11 @@ class ECloudHousekeeperClient implements \ArrayAccess
         return $resp;
     }
 
+    public function handleEmptyResponse(?string $content = null, ?ResponseInterface $response = null)
+    {
+        throw new RuntimeException(sprintf("Request fail , response body is ein class %s", static::class), $response->getStatusCode());
+    }
+
     public function isErrorResponse(array $data): bool
     {
         if (empty($data['code'])) {
@@ -102,6 +109,6 @@ class ECloudHousekeeperClient implements \ArrayAccess
 
     public function handleErrorResponse(?string $content = null, array $data = [])
     {
-        throw new \RuntimeException(sprintf("Request fail, %s", json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT)), $data['code'] ?? $data['status']);
+        throw new RuntimeException(sprintf("Request fail, %s", json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT)), $data['code'] ?? $data['status']);
     }
 }
