@@ -1,0 +1,88 @@
+{
+    "name": "plugins-world/ecloudhousekeeper",
+    "description": "An e cloud housekeeper client with php.",
+    "keywords": [
+        "e-cloud-housekeeper",
+        "wechat",
+        "wework",
+        "bot",
+        "vbot",
+        "wechatbot",
+        "weworkbot"
+    ],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "mouyong",
+            "email": "my24251325@gmail.com",
+            "homepage": "https://github.com/mouyong",
+            "role": "Creator & Developer"
+        }
+    ],
+    "homepage": "https://github.com/plugins-world/Ecloudhousekeeper",
+    "support": {
+        "email": "my24251325@gmail.com",
+        "source": "https://github.com/plugins-world/Ecloudhousekeeper",
+        "issues": "https://github.com/plugins-world/Ecloudhousekeeper/issues",
+        "forum": "https://github.com/plugins-world/Ecloudhousekeeper/issues",
+        "wiki": "https://github.com/plugins-world/Ecloudhousekeeper"
+    },
+    "require": {
+        "php": ">=8.0",
+        "zhenmu/support": "^1.0"
+    },
+    "require-dev": {
+        "brainmaestro/composer-git-hooks": "^2.8",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "mockery/mockery": "^1.2",
+        "phpunit/phpunit": "^9.0",
+        "vimeo/psalm": "^4.10",
+        "jetbrains/phpstorm-attributes": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MouYong\\ECloudHousekeeper\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MouYong\\ECloudHousekeeper\\ECloudHousekeeperServiceProvider"
+            ]
+        },
+        "hooks": {
+            "pre-commit": [
+                "composer check-style",
+                "composer test"
+            ],
+            "pre-push": [
+                "composer test",
+                "composer check-style"
+            ]
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "cghooks remove",
+            "cghooks add --ignore-lock",
+            "cghooks update"
+        ],
+        "post-merge": "composer install",
+        "post-install-cmd": [
+            "cghooks remove",
+            "cghooks add --ignore-lock",
+            "cghooks update"
+        ],
+        "cghooks": "vendor/bin/cghooks",
+        "check-style": "php-cs-fixer fix --using-cache=no --diff --dry-run --ansi",
+        "fix-style": "php-cs-fixer fix --using-cache=no --ansi",
+        "test": "phpunit --colors",
+        "psalm": "psalm --show-info=true --no-cache",
+        "psalm-fix": "psalm --no-cache --alter --issues=MissingReturnType,MissingParamType"
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests.",
+        "check-style": "Run style checks (only dry run - no fixing!).",
+        "fix-style": "Run style checks and fix violations."
+    }
+}
